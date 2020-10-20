@@ -11,7 +11,7 @@ services:
             - ./config/master.cnf:/etc/mysql/mariadb.conf.d/master.cnf
             - ./scripts/master:/docker-entrypoint-initdb.d
         ports: 
-            - 3308
+            - 3306
         networks: 
             repli-network:
                 aliases: 
@@ -26,7 +26,7 @@ services:
             - ./config/slave.cnf:/etc/mysql/mariadb.conf.d/slave.cnf
             - ./scripts/slave:/docker-entrypoint-initdb.d
         ports: 
-            - 3308
+            - 3306
         networks: 
             repli-network:
                 aliases: 
