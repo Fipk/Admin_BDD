@@ -1,0 +1,36 @@
+version:  '3.7'
+
+services:
+    master:
+        image: mariadb:10.4
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - ./master:/var/lib/mysql
+            - ./backups:/backups
+            - ./config/master.cnf:/etc/mysql/mariadb.conf.d/master.cnf
+            - ./scripts/master:/docker-entrypoint-initdb.d
+        ports: 
+            - 3308
+        networks: 
+            repli-network:
+                aliases: 
+                    - master-replication.localhost
+    slave:
+        image: mariadb:10.4
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - ./slave:/var/lib/mysql
+            - ./backups:/backups
+            - ./config/slave.cnf:/etc/mysql/mariadb.conf.d/slave.cnf
+            - ./scripts/slave:/docker-entrypoint-initdb.d
+        ports: 
+            - 3308
+        networks: 
+            repli-network:
+                aliases: 
+                    - slave-replication.localhost
+
+networks: 
+    repli-network:
